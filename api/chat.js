@@ -18,7 +18,7 @@ function extractReply(vapiResponse) {
   return "";
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -38,10 +38,11 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "VAPI_API_KEY not set" });
   }
 
-  const message = (req.body && (req.body.message || req.body.input)) || "";
-  const assistantId = (req.body && req.body.assistantId && req.body.assistantId.trim()) || VAPI_ASSISTANT_ID.trim();
+  const body = req.body || {};
+  const message = (body.message || body.input || "").trim();
+  const assistantId = (body.assistantId && String(body.assistantId).trim()) || String(VAPI_ASSISTANT_ID || "").trim();
 
-  if (!message.trim()) {
+  if (!message) {
     return res.status(400).json({ error: "Missing message" });
   }
   if (!assistantId) {
@@ -52,10 +53,10 @@ export default async function handler(req, res) {
     const vapiRes = await fetch(VAPI_CHAT_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${VAPI_API_KEY}`,
+        Authorization: "Bearer " + VAPI_API_KEY,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ assistantId, input: message.trim() }),
+      body: JSON.stringify({ assistantId, input: message }),
     });
     const json = await vapiRes.json();
     if (!vapiRes.ok) {
