@@ -23,6 +23,7 @@ git push -u origin main
 1. Go to [vercel.com](https://vercel.com) and sign in.
 2. Click **Add New…** → **Project**.
 3. Import your GitHub repo (e.g. `YOUR_USERNAME/YOUR_REPO`).
+
 4. Leave **Root Directory** as `.` and **Framework Preset** as **Other**.
 5. Click **Deploy**. The first deploy may succeed without env vars; chat/voice will work after you add them.
 
@@ -61,6 +62,22 @@ Share that URL; visitors get chat and voice with your ZepMed Agent.
 3. **Check spelling**: Names must be exactly `VAPI_API_KEY`, `VAPI_ASSISTANT_ID`, `VAPI_PUBLIC_KEY` (no spaces).
 
 After redeploying, try sending a message again; the chat should work.
+
+---
+
+## If voice (mic) still doesn't work
+
+1. **Vapi Allowed Origins**  
+   In [Vapi Dashboard](https://dashboard.vapi.ai) → **API Keys** → edit your **public** key → under **Allowed Origins** add your exact Vercel URL, e.g.:
+   - `https://voice-agent-swart-nine.vercel.app`
+   - Or your custom domain if you use one.  
+   Include `https://` and no trailing slash. Without this, the public key can be rejected on your deployed domain.
+
+2. **Redeploy and hard-refresh**  
+   Redeploy on Vercel after any env or code change, then open the app and do **Ctrl+Shift+R** (or Cmd+Shift+R). If the mic is greyed out, try **clicking it once** to retry loading voice.
+
+3. **Check browser console**  
+   Open DevTools (F12) → **Console**. If you see errors about "Vapi", "script", or "origin", note them and fix (e.g. add origin in Vapi, or allow the Vapi script if an ad blocker is blocking it).
 
 ---
 

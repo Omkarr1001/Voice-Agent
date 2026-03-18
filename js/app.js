@@ -238,8 +238,11 @@
       }, 500);
     }
   }
-  // On Vercel: load voice keys from /api/config so we don't ship them in the repo
-  if (!isLocal && (!vapiConfig.publicKey || !vapiConfig.assistantId)) {
+  function fetchConfigAndInitVoice() {
+    if (isLocal) {
+      runVoiceInit();
+      return;
+    }
     fetch("/api/config")
       .then(function (r) { return r.json(); })
       .then(function (d) {
@@ -250,8 +253,22 @@
         runVoiceInit();
       })
       .catch(function () { runVoiceInit(); });
+  }
+
+  // Config may already be loaded by index.html on Vercel; if not, fetch it. Mic click when disabled = retry.
+  if (!isLocal && (!vapiConfig.publicKey || !vapiConfig.assistantId)) {
+    fetchConfigAndInitVoice();
   } else {
     runVoiceInit();
+  }
+
+  if (micBtn) {
+    micBtn.addEventListener("click", function onMicClick() {
+      if (micBtn.disabled && !isLocal) {
+        setStatus("Retrying voice…");
+        fetchConfigAndInitVoice();
+      }
+    }, { once: false });
   }
 
   window.ZepmedSendMessage = sendMessage;
