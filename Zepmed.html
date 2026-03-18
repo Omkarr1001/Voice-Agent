@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ZepMed AI Assistant</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web@latest/dist/vapi.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+.container {
+  width: 400px;
+  height: 600px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+}
+
+.header {
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  background: rgba(255,255,255,0.08);
+}
+
+.chat-box {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  max-width: 70%;
+}
+
+.user {
+  background: #3b82f6;
+  align-self: flex-end;
+}
+
+.bot {
+  background: #22c55e;
+  align-self: flex-start;
+}
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  background: rgba(255,255,255,0.08);
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+button {
+  margin-left: 8px;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.send-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.mic-btn {
+  background: #22c55e;
+  color: white;
+}
+
+.mic-btn.active {
+  background: #ef4444;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.status {
+  text-align: center;
+  font-size: 12px;
+  color: #94a3b8;
+  padding-bottom: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="header">ZepMed AI Assistant</div>
+
+  <div id="chatBox" class="chat-box"></div>
+
+  <div class="status" id="status">Ready</div>
+
+  <div class="input-area">
+    <input id="input" placeholder="Type your message..." />
+    <button class="send-btn" onclick="sendMessage()">➤</button>
+    <button id="micBtn" class="mic-btn">🎤</button>
+  </div>
+</div>
+
+<script>
+const vapi = new Vapi("36e108af-8faa-4d53-8874-989c16d4b4d0");
+
+let isListening = false;
+
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("input");
+const micBtn = document.getElementById("micBtn");
+const status = document.getElementById("status");
+
+// Add message to UI
+function addMessage(text, sender) {
+  const msg = document.createElement("div");
+  msg.classList.add("message", sender);
+  msg.innerText = text;
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Chat send
+function sendMessage() {
+  const text = input.value;
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  // Fake bot response (replace with backend later)
+  setTimeout(() => {
+    addMessage("Processing your request...", "bot");
+  }, 500);
+}
+
+// Voice toggle
+micBtn.addEventListener("click", () => {
+  if (!isListening) {
+    vapi.start("f62ff55b-d7b6-4468-9a7d-30e2bf8338e4");
+    micBtn.classList.add("active");
+    status.innerText = "Listening...";
+    isListening = true;
+  } else {
+    vapi.stop();
+    micBtn.classList.remove("active");
+    status.innerText = "Stopped";
+    isListening = false;
+  }
+});
+
+// Optional: handle assistant messages (if supported)
+vapi.on("message", (msg) => {
+  if (msg.type === "transcript") {
+    addMessage(msg.text, "bot");
+  }
+});
+</script>
+
+</body>
+</html>

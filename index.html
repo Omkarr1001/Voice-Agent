@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Zepmed Assistant — Support and enquiries for India's hyperlocal medicine network.">
+  <title>Zepmed Assistant | India's Hyperlocal Medicine Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 id="headerTitle">Zepmed Assistant</h1>
+      <p id="headerTagline">India's Hyperlocal Medicine Network</p>
+    </header>
+    <div id="chatBox" class="chat-box" role="log" aria-live="polite"></div>
+    <div class="status" id="status" aria-live="polite">Ready</div>
+    <footer class="footer">
+      <a id="footerLink" href="https://zepmed.org" target="_blank" rel="noopener">Submit enquiry · zepmed.org</a>
+    </footer>
+    <div class="input-area">
+      <input
+        id="input"
+        type="text"
+        placeholder="Ask about delivery, orders, or partner signup..."
+        aria-label="Your message"
+        autocomplete="off"
+      />
+      <button id="sendBtn" class="send-btn" type="button" aria-label="Send">➤</button>
+      <button id="micBtn" class="mic-btn" type="button" aria-label="Start voice">🎤</button>
+    </div>
+  </div>
+
+  <!-- Config: defaults below; config.js overrides when present (for voice keys). -->
+  <script>
+    window.ZEPMED_CONFIG = {
+      vapi: { publicKey: "", assistantId: "" },
+      backendUrl: "",
+      company: { name: "Zepmed", tagline: "India's Hyperlocal Medicine Network", website: "https://zepmed.org" }
+    };
+  </script>
+  <script src="config.js"></script>
+  <script>
+    if (!window.ZEPMED_CONFIG.vapi) window.ZEPMED_CONFIG.vapi = {};
+    if (!window.ZEPMED_CONFIG.company) window.ZEPMED_CONFIG.company = { name: "Zepmed", website: "https://zepmed.org" };
+  </script>
+  <!-- Vapi Web SDK: UMD bundle exposes window.Vapi (npm @vapi-ai/web is ESM-only in browser) -->
+  <script src="https://cdn.jsdelivr.net/gh/balacodeio/Vapi-Web-UMD@latest/dist/latest/vapi-web-bundle.min.js"></script>
+  <script src="js/assistant.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "zepmed-assistant-server",
+  "version": "1.0.0",
+  "description": "Backend proxy for Zepmed Assistant — forwards chat to Vapi so the same agent powers voice and text.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

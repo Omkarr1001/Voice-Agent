@@ -1,0 +1,13 @@
+# Do not commit secrets (use config.example.js as template; copy to config.js locally)
+config.js
+.env
+.env.local
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode/*.local

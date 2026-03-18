@@ -1,0 +1,261 @@
+/* Zepmed Assistant — Professional UI for zepmed.org */
+
+:root {
+  --zep-primary: #0d9488;
+  --zep-primary-dark: #0f766e;
+  --zep-accent: #14b8a6;
+  --zep-bg: #0f172a;
+  --zep-surface: #1e293b;
+  --zep-surface-2: rgba(255, 255, 255, 0.06);
+  --zep-text: #f8fafc;
+  --zep-text-muted: #94a3b8;
+  --zep-user-msg: #0d9488;
+  --zep-bot-msg: #334155;
+  --zep-border: rgba(255, 255, 255, 0.1);
+  --zep-error: #ef4444;
+  --zep-success: #22c55e;
+  --radius: 14px;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(160deg, var(--zep-bg) 0%, var(--zep-surface) 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--zep-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  height: 90vh;
+  max-height: 680px;
+  background: var(--zep-surface-2);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow), 0 0 0 1px var(--zep-border);
+}
+
+.header {
+  padding: 18px 20px;
+  text-align: center;
+  background: rgba(13, 148, 136, 0.15);
+  border-bottom: 1px solid var(--zep-border);
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--zep-text);
+}
+
+.header p {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  color: var(--zep-text-muted);
+}
+
+.chat-box {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+  background: var(--zep-border);
+  border-radius: 3px;
+}
+
+.message {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  max-width: 85%;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  word-wrap: break-word;
+}
+
+.message.user {
+  background: var(--zep-user-msg);
+  align-self: flex-end;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot {
+  background: var(--zep-bot-msg);
+  align-self: flex-start;
+  color: var(--zep-text);
+  border-bottom-left-radius: 4px;
+}
+
+.message.error {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  align-self: flex-start;
+}
+
+.message .typing-dots span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--zep-text-muted);
+  margin: 0 2px;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.message .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.message .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+.status {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--zep-text-muted);
+  padding: 6px 12px;
+  min-height: 24px;
+}
+
+.footer {
+  text-align: center;
+  padding: 4px 12px 8px;
+  border-top: 1px solid var(--zep-border);
+}
+
+.footer a {
+  font-size: 0.75rem;
+  color: var(--zep-text-muted);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: var(--zep-accent);
+  text-decoration: underline;
+}
+
+.input-area {
+  display: flex;
+  padding: 12px 16px 16px;
+  background: var(--zep-surface-2);
+  border-top: 1px solid var(--zep-border);
+  gap: 8px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--zep-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--zep-text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-area input::placeholder {
+  color: var(--zep-text-muted);
+}
+
+.input-area input:focus {
+  border-color: var(--zep-primary);
+  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.25);
+}
+
+.input-area button {
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: transform 0.15s, background 0.2s;
+}
+
+.input-area button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-area button:not(:disabled):hover {
+  transform: scale(1.02);
+}
+
+.send-btn {
+  background: var(--zep-primary);
+  color: white;
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--zep-primary-dark);
+}
+
+.mic-btn {
+  background: var(--zep-surface);
+  color: var(--zep-text);
+  border: 1px solid var(--zep-border);
+}
+
+.mic-btn.active {
+  background: var(--zep-error);
+  border-color: var(--zep-error);
+  animation: pulse 1.2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+}
+
+.welcome {
+  text-align: center;
+  padding: 20px 16px;
+  color: var(--zep-text-muted);
+  font-size: 0.9rem;
+}
+
+.welcome strong {
+  color: var(--zep-text);
+}
+
+.welcome code {
+  font-size: 0.85em;
+  background: var(--zep-surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+}
