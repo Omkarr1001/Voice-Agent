@@ -243,16 +243,16 @@
       runVoiceInit();
       return;
     }
-    fetch("/api/config")
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
+    fetch("/api/voice-config").then(function (r) { if (r.ok) return r.json(); if (r.status === 404) return fetch("/api/config").then(function (r2) { return r2.ok ? r2.json() : {}; }); return {}; }).then(function (d) {
         if (d && d.vapi) {
           window.ZEPMED_CONFIG.vapi = d.vapi;
           vapiConfig = d.vapi;
         }
         runVoiceInit();
-      })
-      .catch(function () { runVoiceInit(); });
+      }).catch(function () { runVoiceInit(); });
+    } else {
+      runVoiceInit();
+    }
   }
 
   // Config may already be loaded by index.html on Vercel; if not, fetch it. Mic click when disabled = retry.

@@ -35,7 +35,7 @@ In the project dashboard: **Settings** → **Environment Variables**. Add:
 |------|--------|------|
 | `VAPI_API_KEY` | Your **private** Vapi API key | From [dashboard.vapi.ai](https://dashboard.vapi.ai) → API Keys. Used by `/api/chat`. |
 | `VAPI_ASSISTANT_ID` | `f62ff55b-d7b6-4468-9a7d-30e2bf8338e4` | Your ZepMed Agent ID. |
-| `VAPI_PUBLIC_KEY` | Your **public** Vapi API key | **Required for the 🎤 mic button.** Same dashboard. Used by the browser for voice via `/api/config`. |
+| `VAPI_PUBLIC_KEY` | Your **public** Vapi API key | **Required for the 🎤 mic button.** Exposed to the browser via `/api/voice-config` (or `/api/config`). |
 
 Then **Redeploy** the project (Deployments → ⋮ on latest → Redeploy) so the new variables are applied.
 
@@ -76,7 +76,10 @@ After redeploying, try sending a message again; the chat should work.
 2. **Redeploy and hard-refresh**  
    Redeploy on Vercel after any env or code change, then open the app and do **Ctrl+Shift+R** (or Cmd+Shift+R). If the mic is greyed out, try **clicking it once** to retry loading voice.
 
-3. **Check browser console**  
+3. **If /api/voice-config or /api/config returns 404**  
+   In Vercel → **Settings** → **General**, set **Root Directory** to `.` (leave empty or `.`) so the `api` folder is at the deployment root. Ensure `api/voice-config.js` and `api/config.js` are committed and pushed, then redeploy.
+
+4. **Check browser console**  
    Open DevTools (F12) → **Console**. If you see errors about "Vapi", "script", or "origin", note them and fix (e.g. add origin in Vapi, or allow the Vapi script if an ad blocker is blocking it).
 
 ---
@@ -85,4 +88,4 @@ After redeploying, try sending a message again; the chat should work.
 
 - **Static files** (HTML, CSS, JS) are served by Vercel.
 - **Chat** is handled by the serverless function `api/chat.js` (uses `VAPI_API_KEY` + `VAPI_ASSISTANT_ID`).
-- **Voice** keys are provided by `api/config.js` (uses `VAPI_PUBLIC_KEY` + `VAPI_ASSISTANT_ID`); the browser never sees your private key.
+- **Voice** keys are provided by `api/voice-config.js` or `api/config.js` (use `VAPI_PUBLIC_KEY` + `VAPI_ASSISTANT_ID`); the browser never sees your private key.

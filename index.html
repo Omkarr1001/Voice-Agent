@@ -61,9 +61,17 @@
       var c = document.createElement("script"); c.src = "config.js"; document.body.appendChild(c);
       setTimeout(loadAppScripts, 100);
     } else {
-      fetch("/api/config").then(function (r) { return r.json(); }).then(function (d) {
-        if (d && d.vapi) window.ZEPMED_CONFIG.vapi = d.vapi;
-      }).catch(function () {}).finally(loadAppScripts);
+      function loadVoiceConfig() {
+        var url = "/api/voice-config";
+        fetch(url).then(function (r) {
+          if (r.ok) return r.json();
+          if (r.status === 404 && url === "/api/voice-config") return fetch("/api/config").then(function (r2) { return r2.ok ? r2.json() : {}; });
+          return {};
+        }).then(function (d) {
+          if (d && d.vapi) window.ZEPMED_CONFIG.vapi = d.vapi;
+        }).catch(function () {}).finally(loadAppScripts);
+      }
+      loadVoiceConfig();
     }
   </script>
 </body>
