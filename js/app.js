@@ -132,7 +132,7 @@
         micBtn.style.display = "";
         micBtn.style.opacity = "0.5";
         micBtn.disabled = true;
-        micBtn.title = "Voice: add VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID in Vercel → Settings → Environment Variables, then redeploy.";
+        micBtn.title = "Voice: In Vercel add VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID (Settings → Environment Variables), then Redeploy. Hard-refresh (Ctrl+Shift+R) after.";
       }
       return;
     }
