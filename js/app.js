@@ -129,8 +129,10 @@
     const assistantId = (vapiConfig.assistantId || "").trim();
     if (!key || !assistantId || typeof Vapi === "undefined") {
       if (micBtn) {
-        micBtn.style.display = "none";
-        micBtn.setAttribute("aria-hidden", "true");
+        micBtn.style.display = "";
+        micBtn.style.opacity = "0.5";
+        micBtn.disabled = true;
+        micBtn.title = "Voice: add VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID in Vercel → Settings → Environment Variables, then redeploy.";
       }
       return;
     }
@@ -175,7 +177,11 @@
         }
       });
     } catch (e) {
-      if (micBtn) micBtn.style.display = "none";
+      if (micBtn) {
+        micBtn.style.opacity = "0.5";
+        micBtn.disabled = true;
+        micBtn.title = "Voice SDK failed to load. Check browser console.";
+      }
       console.warn("Vapi init failed:", e);
     }
   }
@@ -214,8 +220,9 @@
     if (!tryInitVoice()) {
       setTimeout(function () {
         if (!tryInitVoice() && micBtn) {
-          micBtn.style.display = "none";
-          setStatus("Voice unavailable — refresh the page.");
+          micBtn.style.opacity = "0.5";
+          micBtn.disabled = true;
+          micBtn.title = "Voice SDK did not load. Refresh or check if scripts are blocked.";
         }
       }, 500);
     }

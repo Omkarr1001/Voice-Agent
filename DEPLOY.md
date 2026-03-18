@@ -34,7 +34,7 @@ In the project dashboard: **Settings** → **Environment Variables**. Add:
 |------|--------|------|
 | `VAPI_API_KEY` | Your **private** Vapi API key | From [dashboard.vapi.ai](https://dashboard.vapi.ai) → API Keys. Used by `/api/chat`. |
 | `VAPI_ASSISTANT_ID` | `f62ff55b-d7b6-4468-9a7d-30e2bf8338e4` | Your ZepMed Agent ID. |
-| `VAPI_PUBLIC_KEY` | Your **public** Vapi API key | Same dashboard. Used by the browser for voice via `/api/config`. |
+| `VAPI_PUBLIC_KEY` | Your **public** Vapi API key | **Required for the 🎤 mic button.** Same dashboard. Used by the browser for voice via `/api/config`. |
 
 Then **Redeploy** the project (Deployments → ⋮ on latest → Redeploy) so the new variables are applied.
 
@@ -51,9 +51,9 @@ Share that URL; visitors get chat and voice with your ZepMed Agent.
 ## If you see "Server error" or "VAPI_API_KEY not set"
 
 1. **Add all three env vars** in Vercel: **Settings → Environment Variables**
-   - `VAPI_API_KEY` (private key)
-   - `VAPI_ASSISTANT_ID`
-   - `VAPI_PUBLIC_KEY` (public key)
+   - `VAPI_API_KEY` (private key) — for **chat**
+   - `VAPI_ASSISTANT_ID` — for chat and voice
+   - `VAPI_PUBLIC_KEY` (public key) — for **voice** (mic button); if missing, the mic is hidden or disabled
 
 2. **Redeploy after adding them**: **Deployments** → **⋮** on the latest deployment → **Redeploy**.  
    Env vars are only applied on the next deploy; editing them alone is not enough.
