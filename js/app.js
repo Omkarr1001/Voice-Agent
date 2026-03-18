@@ -127,16 +127,27 @@
   function initVoice() {
     const key = (vapiConfig.publicKey || "").trim();
     const assistantId = (vapiConfig.assistantId || "").trim();
-    if (!key || !assistantId || typeof Vapi === "undefined") {
+    var sdkMissing = (typeof Vapi === "undefined");
+    var envMissing = (!key || !assistantId);
+    if (sdkMissing || envMissing) {
       if (micBtn) {
         micBtn.style.display = "";
         micBtn.style.opacity = "0.5";
         micBtn.disabled = true;
-        micBtn.title = "Voice: In Vercel add VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID (Settings → Environment Variables), then Redeploy. Hard-refresh (Ctrl+Shift+R) after.";
+        if (sdkMissing) {
+          micBtn.title = "Voice SDK did not load. Check browser console for Vapi script errors.";
+        } else {
+          micBtn.title = "Voice: add VAPI_PUBLIC_KEY and VAPI_ASSISTANT_ID in Vercel (Settings → Environment Variables), then Redeploy. Hard-refresh (Ctrl+Shift+R) after.";
+        }
       }
       return;
     }
     try {
+      if (micBtn) {
+        micBtn.style.opacity = "1";
+        micBtn.disabled = false;
+        micBtn.title = "Start voice";
+      }
       vapi = new Vapi(key);
       // Vapi sends transcript with .transcript (not .text); role is "assistant" or "user"
       vapi.on("message", function (msg) {
