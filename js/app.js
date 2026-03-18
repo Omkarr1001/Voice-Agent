@@ -84,8 +84,10 @@
         body: JSON.stringify(payload)
       })
         .then(function (res) {
-          if (!res.ok) throw new Error("Server error");
-          return res.json();
+          return res.json().catch(function () { return {}; }).then(function (data) {
+            if (!res.ok) throw new Error(data.error || "Server error (" + res.status + ")");
+            return data;
+          });
         })
         .then(function (data) {
           if (data.error && !data.reply) throw new Error(data.error);

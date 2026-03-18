@@ -48,6 +48,22 @@ Share that URL; visitors get chat and voice with your ZepMed Agent.
 
 ---
 
+## If you see "Server error" or "VAPI_API_KEY not set"
+
+1. **Add all three env vars** in Vercel: **Settings → Environment Variables**
+   - `VAPI_API_KEY` (private key)
+   - `VAPI_ASSISTANT_ID`
+   - `VAPI_PUBLIC_KEY` (public key)
+
+2. **Redeploy after adding them**: **Deployments** → **⋮** on the latest deployment → **Redeploy**.  
+   Env vars are only applied on the next deploy; editing them alone is not enough.
+
+3. **Check spelling**: Names must be exactly `VAPI_API_KEY`, `VAPI_ASSISTANT_ID`, `VAPI_PUBLIC_KEY` (no spaces).
+
+After redeploying, try sending a message again; the chat should work.
+
+---
+
 ## Summary
 
 - **Static files** (HTML, CSS, JS) are served by Vercel.
